@@ -1,2 +1,2 @@
 #!/bin/bash
-b=$(printf '%*s' "$1" "" | tr ' ' '1')$(printf '%*s' "$((32-$1))" "" | tr ' ' '0'); for o in {0,8,16,24}; do echo "ibase=2; ${b:$o:8}"; done | bc | paste -sd.
+for i in 0 8 16 24; do b=$(( $1 - i )); (( b >= 8 )) && v=255 || (( b <= 0 )) && v=0 || v=$(( (255 << (8 - b)) & 255 )); echo $v; done | paste -sd.
