@@ -1,5 +1,2 @@
 #!/bin/bash
-IFS='.' read -r a b c d <<< "$1"; ip=$(( (a << 24) + (b << 16) + (c << 8) + d )); m=$(( 0xFFFFFFFF << (32 - $2) & 0xFFFFFFFF ))
-net=$(( ip & m )); bcst=$(( net | (~m & 0xFFFFFFFF) )); f=$(( net + 1 )); l=$(( bcst - 1 ))
-to_ip() { local i=$1; echo -n "$(( (i >> 24) & 255 )).$(( (i >> 16) & 255 )).$(( (i >> 8) & 255 )).$(( i & 255 ))"; }
-printf "%s - %s" "$(to_ip $f)" "$(to_ip $l)"
+IFS='.' read -r i1 i2 i3 i4 <<< "$1"; m=$(( 0xFFFFFFFF << (32 - $2) )); for i in 0 8 16 24; do shift=$(( 24 - i )); eval m$((i/8+1))=$(( (m >> shift) & 255 )); done; n1=$((i1 & m1)); n2=$((i2 & m2)); n3=$((i3 & m3)); n4=$((i4 & m4)); b1=$((n1 | (255 - m1))); b2=$((n2 | (255 - m2))); b3=$((n3 | (255 - m3))); b4=$((n4 | (255 - m4) | 1)); printf "%d.%d.%d.%d - %d.%d.%d.%d" n1 n2 n3 $((n4 + 1)) b1 b2 b3 $((b4 - 1))
