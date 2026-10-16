@@ -1,2 +1,2 @@
 #!/bin/bash
-printf "%08.8b\n" "$1"
+printf "%08d\n" "$(echo "obase=2; $1" | bc)"
